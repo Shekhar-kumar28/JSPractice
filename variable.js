@@ -115,3 +115,10 @@
 //     ||| Names must also begin with $and_.
 //     ||| Names are case sensitive (y and Y are different variables)
 //     ||| Reserved words (likes javascript keywords keywords) CANNOT be used as names.
+
+
+// Boolean represent a truth value-> true or false / yes or no
+
+let age = 23;
+let isAdult = true;
+console.log(isAdult); 
