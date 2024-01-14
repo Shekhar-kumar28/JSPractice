@@ -48,6 +48,19 @@ app.get("/home",(req,res) => {
     res.send("Hello")
 })
 
+app.get("/ig/:username",(req,res) => {
+    let { username } = req.params;
+    const instaData = require("./data.json");
+    const data = instaData[username];
+    res.render("instagram.ejs",{data});
+});
+
+
+app.get("/rolldice",(req,res) => {
+    let diceval =  Math.floor(Math.random()*6)+1
+    res.render("rolldice.ejs",{num:diceval })
+})
+
 app.listen(port,() => {
     console.log(`Server started at ${port}`)
 });
