@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require("path");
 const Chat = require("./models/chat.js")
 const methodOverride = require('method-override');
-
+const ExpressError = require('./ExpressError');
 
 app.set("views",path.join(__dirname,"views"));
 app.set("views engine","ejs");
@@ -43,6 +43,7 @@ app.get("/chats",async (req,res) => {
 
 //new ROUTE
 app.get("/chats/new",(req,res) => {
+    throw new ExpressError(404,"page Not Found");
     res.render("new.ejs")
 })
 
@@ -91,9 +92,25 @@ app.delete('/chats/:id', async (req,res) => {
     res.redirect("/chats");
 })
 
+
+// new-show routes
+app.get("/chats/:id",async (req,res,next) => {
+    let {id} = req.params;
+    let chat = await Chat.findById(id);
+    res.render("edit.ejs",{chat});
+});
+
+
+
 app.get("/", (req, res) => {
     res.send("Working")
 })
+
+
+app.use((err,res,next) => {
+    let {status = 500, message = "some Error Occurred "} = err;
+    res.status(status).send({message});
+});
 
 app.listen(8080, () => {
     console.log("server is listening on port 8080");
